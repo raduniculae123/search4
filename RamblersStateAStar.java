@@ -1,4 +1,6 @@
 import java.util.*;
+import java.lang.Math;
+import javax.swing.table.TableModel;
 
 public class RamblersStateAStar extends SearchState {
 
@@ -57,13 +59,43 @@ public class RamblersStateAStar extends SearchState {
         }
 
         for (Coords coord : succsCoords) {
-            
+            /*
+             * estRemCost = estHeightDiff(currentCoords.gety(), currentCoords.getx(),
+             * rsearcher.getGoal().gety(), rsearcher.getGoal().getx(), rsearcher);
+             */
+            /*
+             * estRemCost = estEuclideanDistance(currentCoords.gety(), currentCoords.getx(),
+             * rsearcher.getGoal().gety(), rsearcher.getGoal().getx());
+             */
+            /*
+             * estRemCost = estManhattanDistance(currentCoords.gety(), currentCoords.getx(),
+             * rsearcher.getGoal().gety(), rsearcher.getGoal().getx());
+             */
+
+            // Combination between all three methods (mean average of them)
+            estRemCost = (estManhattanDistance(currentCoords.gety(), currentCoords.getx(), rsearcher.getGoal().gety(),
+                    rsearcher.getGoal().getx())
+                    + estEuclideanDistance(currentCoords.gety(), currentCoords.getx(), rsearcher.getGoal().gety(),
+                            rsearcher.getGoal().getx())
+                    + estHeightDiff(currentCoords.gety(), currentCoords.getx(), rsearcher.getGoal().gety(),
+                            rsearcher.getGoal().getx(), rsearcher))
+                    / 3;
+
+            if (map.getTmap()[coord.gety()][coord.getx()] <= map.getTmap()[currentCoords.gety()][currentCoords
+                    .getx()]) {
+                succs.add((SearchState) new RamblersStateAStar(coord, 1, estRemCost));
+            } else {
+                succs.add((SearchState) new RamblersStateAStar(coord,
+                        1 + Math.abs(map.getTmap()[coord.gety()][coord.getx()]
+                                - map.getTmap()[currentCoords.gety()][currentCoords.getx()]),
+                        estRemCost));
+            }
         }
 
         return succs;
     }
 
-    // euclid
+    // euclidean
     public int estEuclideanDistance(int startY, int startX, int goalY, int goalX) {
         int estCost;
 
@@ -72,9 +104,22 @@ public class RamblersStateAStar extends SearchState {
         return estCost;
     }
 
-    // manhatan
+    // manhattan
     public int estManhattanDistance(int startY, int startX, int goalY, int goalX) {
-        int estCost = Math.abs(goalY - startY) + Math.abs(goalX - startX);
+        int estCost;
+
+        estCost = Math.abs(goalY - startY) + Math.abs(goalX - startX);
+
+        return estCost;
+    }
+
+    // height
+    public int estHeightDiff(int startY, int startX, int goalY, int goalX, Search searcher) {
+        int estCost;
+        RamblersSearch rsearcher = (RamblersSearch) searcher;
+        TerrainMap map = rsearcher.getMap();
+
+        estCost = map.getTmap()[goalY][goalX] - map.getTmap()[startY][startX];
 
         return estCost;
     }
@@ -82,7 +127,7 @@ public class RamblersStateAStar extends SearchState {
     // sameState
 
     public boolean sameState(SearchState s2) {
-        RamblersStateBB rs2 = (RamblersStateBB) s2;
+        RamblersStateAStar rs2 = (RamblersStateAStar) s2;
         return (currentCoords.getx() == rs2.getCurrentCoords().getx()
                 && currentCoords.gety() == rs2.getCurrentCoords().gety());
     }
@@ -93,4 +138,3 @@ public class RamblersStateAStar extends SearchState {
     }
 
 }
-
