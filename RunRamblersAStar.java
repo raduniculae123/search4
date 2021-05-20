@@ -46,7 +46,7 @@ public class RunRamblersAStar {
             System.out.println("Efficiency after " + numOfTests + " random cases using AStar is: " + effAStar);
             System.out.println("Efficiency after " + numOfTests + " random cases using BB is: " + effBB);
             System.out.println("Efficiency difference between AStar and BB is: " + (effAStar - effBB));
-            System.out.println("Check the created file in order to view every set of coordinates");
+            System.out.println("Check the created file (dataset) in order to view every set of coordinates");
             myWriter.write("CONCLUSIONS \n");
             myWriter.write("Efficiency after " + numOfTests + " random cases using AStar is: " + effAStar + "\n");
             myWriter.write("Efficiency after " + numOfTests + " random cases using BB is: " + effBB + "\n");
