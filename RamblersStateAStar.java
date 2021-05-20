@@ -63,6 +63,22 @@ public class RamblersStateAStar extends SearchState {
         return succs;
     }
 
+    // euclid
+    public int estEuclideanDistance(int startY, int startX, int goalY, int goalX) {
+        int estCost;
+
+        estCost = (int) Math.sqrt((goalY - startY) * (goalY - startY) + (goalX - startX) * (goalX - startX));
+
+        return estCost;
+    }
+
+    // manhatan
+    public int estManhattanDistance(int startY, int startX, int goalY, int goalX) {
+        int estCost = Math.abs(goalY - startY) + Math.abs(goalX - startX);
+
+        return estCost;
+    }
+
     // sameState
 
     public boolean sameState(SearchState s2) {
