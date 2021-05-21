@@ -59,28 +59,27 @@ public class RamblersStateAStar extends SearchState {
         }
 
         for (Coords coord : succsCoords) {
+            
+              estRemCost = estHeightDiff(currentCoords.gety(), currentCoords.getx(),
+              rsearcher.getGoal().gety(), rsearcher.getGoal().getx(), rsearcher);
+             
+/*
+            estRemCost = estEuclideanDistance(currentCoords.gety(), currentCoords.getx(), rsearcher.getGoal().gety(),
+                    rsearcher.getGoal().getx());
+*/
             /*
-             * estRemCost = estHeightDiff(currentCoords.gety(), currentCoords.getx(),
-             * rsearcher.getGoal().gety(), rsearcher.getGoal().getx(), rsearcher);
+              estRemCost = estManhattanDistance(currentCoords.gety(), currentCoords.getx(),
+              rsearcher.getGoal().gety(), rsearcher.getGoal().getx());
              */
             /*
-             * estRemCost = estEuclideanDistance(currentCoords.gety(), currentCoords.getx(),
-             * rsearcher.getGoal().gety(), rsearcher.getGoal().getx());
+             * // Combination between all three methods (mean average of them) estRemCost =
+             * (estManhattanDistance(currentCoords.gety(), currentCoords.getx(),
+             * rsearcher.getGoal().gety(), rsearcher.getGoal().getx()) +
+             * estEuclideanDistance(currentCoords.gety(), currentCoords.getx(),
+             * rsearcher.getGoal().gety(), rsearcher.getGoal().getx()) +
+             * estHeightDiff(currentCoords.gety(), currentCoords.getx(),
+             * rsearcher.getGoal().gety(), rsearcher.getGoal().getx(), rsearcher)) / 3;
              */
-            /*
-             * estRemCost = estManhattanDistance(currentCoords.gety(), currentCoords.getx(),
-             * rsearcher.getGoal().gety(), rsearcher.getGoal().getx());
-             */
-
-            // Combination between all three methods (mean average of them)
-            estRemCost = (estManhattanDistance(currentCoords.gety(), currentCoords.getx(), rsearcher.getGoal().gety(),
-                    rsearcher.getGoal().getx())
-                    + estEuclideanDistance(currentCoords.gety(), currentCoords.getx(), rsearcher.getGoal().gety(),
-                            rsearcher.getGoal().getx())
-                    + estHeightDiff(currentCoords.gety(), currentCoords.getx(), rsearcher.getGoal().gety(),
-                            rsearcher.getGoal().getx(), rsearcher))
-                    / 3;
-
             if (map.getTmap()[coord.gety()][coord.getx()] <= map.getTmap()[currentCoords.gety()][currentCoords
                     .getx()]) {
                 succs.add((SearchState) new RamblersStateAStar(coord, 1, estRemCost));
@@ -119,7 +118,7 @@ public class RamblersStateAStar extends SearchState {
         RamblersSearch rsearcher = (RamblersSearch) searcher;
         TerrainMap map = rsearcher.getMap();
 
-        estCost = map.getTmap()[goalY][goalX] - map.getTmap()[startY][startX];
+        estCost = (int) Math.abs(map.getTmap()[goalY][goalX] - map.getTmap()[startY][startX]);
 
         return estCost;
     }

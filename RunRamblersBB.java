@@ -2,7 +2,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class RunRamblersBB {
     public static void main(String args[]) {
-        TerrainMap tm = new TerrainMap("tmc.pgm");
+        TerrainMap tm = new TerrainMap("diablo.pgm");
         int maxWidth = tm.getWidth();
         int maxDepth = tm.getDepth();
         int numOfTests = 50;

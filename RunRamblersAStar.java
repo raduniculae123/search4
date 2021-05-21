@@ -7,7 +7,7 @@ public class RunRamblersAStar {
         TerrainMap tm = new TerrainMap("tmc.pgm");
         int maxWidth = tm.getWidth();
         int maxDepth = tm.getDepth();
-        int numOfTests = 100;
+        int numOfTests = 50;
         float sumAStar = 0;
         float sumBB = 0;
         float effAStar;
